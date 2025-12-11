@@ -1,0 +1,35 @@
+Name: megitron-prod
+Host: 0.0.0.0
+Port: 6666
+
+Log:
+  ServiceName: "megitron_service"
+  Mode: file
+  Path: "./logs"
+  KeepDays: 60
+  Stat: false
+  TimeFormat: "2006-01-02 15:04:05"
+
+DB:
+  User: root
+  Password: "123456"
+  Host: db
+  Port: 5432
+  Name: megitron
+  Charset: utf8mb4
+  Timezone: UTC
+
+Tron:
+  # Network: https://api.trongrid.io
+  # GrpcNetwork: grpc://grpc.shasta.trongrid.io:50051
+  # HttpNetwork: https://api.shasta.trongrid.io
+  GrpcNetwork: grpc://grpc.nile.trongrid.io:50051
+  HttpNetwork: https://nile.trongrid.io
+  Trx2UsdtRateApi: https://api.htx.com/market/detail?symbol=trxusdt
+  OwnerPrivateKey: ab09942dcabd1e1a6ced3e7002dcadcd244104dffa8884eb67cde035659ccf86
+  MonitorAddress: TD9ryFrcJd74nd24P7ToHjqjSfcaHqk92G
+  TRC20USDTAddress: TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf
+
+Bot:
+  Token: "8365546663:AAHzYZpB0KvwSguCNzLLYsR9DbtvMjrJSEg"
+  Service: "@eysirs"

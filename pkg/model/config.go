@@ -1,0 +1,39 @@
+// Code scaffolded by goctl. Safe to edit.
+// goctl 1.9.2
+
+package model
+
+import "github.com/zeromicro/go-zero/rest"
+
+type Config struct {
+	rest.RestConf
+	DB   DB
+	Tron Tron
+	Bot  Bot
+}
+
+type DB struct {
+	Name     string
+	User     string
+	Password string
+	Host     string
+	Port     int16
+	Charset  string
+	Timezone string
+}
+
+type Tron struct {
+	GrpcNetwork string
+	HttpNetwork string
+
+	Trx2UsdtRateApi string
+
+	OwnerPrivateKey  string
+	MonitorAddress   string
+	TRC20USDTAddress string
+}
+
+type Bot struct {
+	Token   string
+	Service string
+}
