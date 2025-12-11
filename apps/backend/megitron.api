@@ -14,6 +14,13 @@ type Paged {
 	Total int64 `json:"total"`
 }
 
+type Contacts{
+	Telegram string `json:"telegram"`
+	WhatsApp string `json:"whatsapp"`
+	Wechat string `json:"wechat"`
+	Other  string `json:"other"`
+}
+
 type TronAccountGetReq {}
 
 type TronAccountGetResp {}
@@ -22,9 +29,31 @@ type TronAccountCreateReq {}
 
 type TronAccountCreateResp {}
 
-type DelegateOrderListReq {}
+type DelegateOrderListReq {
+	Paged
+	TransactionId string `json:"transaction_id"`
+	From string `json:"from"`
+	Receiver string `json:"receiver"`
+	Typo string `json:"typo"`
+	Start int64 `json:"start"`
+	End int64 `json:"end"`
+}
 
-type DelegateOrderListResp {}
+type DelegateOrderListResp {
+	Id int64 `json:"id"`
+	TransactionId string `json:"transaction_id"`
+	Status int8 `json:"status"`
+	Currency string`json:""`
+	ReceivedAmount int64`json:"received_amount"`
+	ReceivedSun int64`json:"received_sun"`
+
+	From string`json:"from"`
+	Receiver string`json:"receiver"`
+	WithdrawTime int64 `json:"withdraw_time"`
+	Description string `json:"description"`
+	CreatedAt int64`json:"created_at"`
+	Contacts
+}
 
 type ExchangeOrderListReq {}
 
@@ -44,43 +73,6 @@ type ExchangeOrderCreateResp {
 	Msg string `json:"msg"`
 }
 
-type TransferTrxCreateReq {
-	Amount int64  `json:"amount"`
-	From   string `json:"from"`
-	To     string `json:"to"`
-}
-
-type TransferTrxCreateResp {
-	TransactionId string `json:"transaction_id"`
-	Msg           string `json:"msg"`
-}
-
-type TransferListReq {
-	Address string `json:"address"`
-}
-
-type TransferListResp {}
-
-type TransferUsdtCreateReq {
-	Amount int64  `json:"amount"`
-	From   string `json:"from"`
-	To     string `json:"to"`
-}
-
-type ResourceDelegateReq {
-	Type     int8   `json:"type"`
-	Owner    string `json:"owner"`
-	Receiver string `json:"receiver"`
-}
-
-type ResourceDelegateResp {
-	TransactionId string `json:"transaction_id"`
-}
-
-type TransferUsdtCreateResp {
-	TransactionId string `json:"transaction_id"`
-	Msg           string `json:"msg"`
-}
 
 type UserCreateReq {}
 

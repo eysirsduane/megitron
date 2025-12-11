@@ -1,8 +1,8 @@
 # yaml 配置实例
 services:
   # frontadmin:
-  #   # image: hubforles/megitron-frontadmin:latest
-  #   image: hubforles/megitron-frontadmin:mac
+  #   # image: eysirsduane/megitron-frontadmin:latest
+  #   image: eysirsduane/megitron-frontadmin:mac
   #   restart: always
   #   environment:
   #     DB_HOST: db
@@ -22,7 +22,7 @@ services:
   #     - /Users/eysirs/etc:/app/etc
   
   telegram:
-    image: hubforles/megitron-telegram:mac
+    image: eysirsduane/megitron-telegram:mac
     restart: always
     environment:
       DB_HOST: db
@@ -42,8 +42,8 @@ services:
       - /Users/eysirs/etc:/app/etc
 
   backend:
-    # image: hubforles/megitron-web:latest
-    image: hubforles/megitron-backend:mac
+    # image: eysirsduane/megitron-web:latest
+    image: eysirsduane/megitron-backend:mac
     restart: always
     environment:
       DB_HOST: db
@@ -64,8 +64,8 @@ services:
       # - /home/test/logs:/app/logs
 
   job:
-    # image: hubforles/megitron-web:latest
-    image: hubforles/megitron-job:mac
+    # image: eysirsduane/megitron-web:latest
+    image: eysirsduane/megitron-job:mac
     restart: always
     environment:
       DB_HOST: db
