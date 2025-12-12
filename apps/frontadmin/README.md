@@ -4,6 +4,14 @@
   <span>中文 | <a href="./README.en_US.md">English</a></span>
 </div>
 
+---
+
+[![license](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
+[![github stars](https://img.shields.io/github/stars/honghuangdc/soybean-admin)](https://github.com/soybeanjs/soybean-admin)
+[![github forks](https://img.shields.io/github/forks/honghuangdc/soybean-admin)](https://github.com/soybeanjs/soybean-admin)
+[![gitee stars](https://gitee.com/honghuangdc/soybean-admin/badge/star.svg)](https://gitee.com/honghuangdc/soybean-admin)
+[![gitcode star](https://gitcode.com/soybeanjs/soybean-admin/star/badge.svg)](https://gitcode.com/soybeanjs/soybean-admin)
+
 <div style="display: flex; gap: 12px; align-items: center;">
   <a href="https://trendshift.io/repositories/7963" target="_blank"><img src="https://trendshift.io/api/badge/repositories/7963" alt="soybeanjs%2Fsoybean-admin | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
   <a href="https://hellogithub.com/repository/1298f27d5fe54959a16cf9686516ddb3" target="_blank"><img src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=1298f27d5fe54959a16cf9686516ddb3&claim_uid=IiDXWmP4TEntjbV" alt="Featured｜HelloGitHub" style="width: 250px; height: 54px;" width="250" height="54" /></a>

@@ -1,7 +1,7 @@
 # Changelog
 
 
-## 
+## [v2.0.1](https://github.com/soybeanjs/soybean-admin/compare/v2.0.0...v2.0.1) (2025-12-04)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
 

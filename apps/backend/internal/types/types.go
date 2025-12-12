@@ -3,10 +3,82 @@
 
 package types
 
+type Contacts struct {
+	Telegram string `json:"telegram"`
+	WhatsApp string `json:"whatsapp"`
+	Wechat   string `json:"wechat"`
+	Other    string `json:"other"`
+}
+
+type DelegateBillGetReq struct {
+	OrderId int64 `json:"order_id"`
+}
+
+type DelegateBillGetResp struct {
+	Bill DelegateBillItem
+}
+
+type DelegateBillItem struct {
+	Id              int64  `json:"id"`
+	OrderId         int64  `json:"order_id"`
+	TransactionId   string `json:"transaction_id"`
+	Status          int16  `json:"status"`
+	From            string `json:"from"`
+	To              string `json:"to"`
+	DelegatedAmount int64  `json:"delegated_amount"`
+	Contacts
+	CreatedAt int64 `json:"created_at"`
+}
+
+type DelegateOrderItem struct {
+	Id             int64   `json:"id"`
+	TransactionId  string  `json:"transaction_id"`
+	Status         string  `json:"status"`
+	Currency       string  `json:"currency"`
+	ReceivedAmount float64 `json:"received_amount"`
+	ReceivedSun    int64   `json:"received_sun"`
+	FromBase58     string  `json:"from_base58"`
+	ToBase58       string  `json:"to_base58"`
+	WithdrawTime   int64   `json:"withdraw_time"`
+	Description    string  `json:"description"`
+	Contacts
+	CreatedAt int64 `json:"created_at"`
+}
+
 type DelegateOrderListReq struct {
+	Pages
+	TransactionId string `json:"transaction_id"`
+	Status        string `json:"status"`
+	FromBase58    string `json:"from_base58"`
+	ToBase58      string `json:"to_base58"`
+	Typo          string `json:"typo"`
+	Start         int64  `json:"start"`
+	End           int64  `json:"end"`
 }
 
 type DelegateOrderListResp struct {
+	Items []*DelegateOrderItem `json:"items"`
+	Total int64                `json:"total"`
+}
+
+type DelegateWithdrawGetReq struct {
+	OrderId int64
+}
+
+type DelegateWithdrawGetResp struct {
+	Withdraw DelegateWithdrawItem
+}
+
+type DelegateWithdrawItem struct {
+	Id                int64  `json:"id"`
+	OrderId           int64  `json:"order_id"`
+	TransactionId     string `json:"transaction_id"`
+	Typo              string `json:"typo"`
+	From              string `json:"from"`
+	To                string `json:"to"`
+	UnDelegatedAmount int64  `json:"un_delegated_amount"`
+	Description       string `json:"description"`
+	CreatedAt         int64  `json:"created_at"`
 }
 
 type ExchangeOrderCreateReq struct {
@@ -29,57 +101,17 @@ type ExchangeOrderListReq struct {
 type ExchangeOrderListResp struct {
 }
 
-type Paged struct {
-	Page  int64 `json:"page"`
-	Limit int64 `json:"limit"`
-	Total int64 `json:"total"`
+type Pages struct {
+	Page  int `json:"page"`
+	Limit int `json:"limit"`
 }
 
 type Request struct {
 	Name string `path:"name,options=you|me"`
 }
 
-type ResourceDelegateReq struct {
-	Type     int8   `json:"type"`
-	Owner    string `json:"owner"`
-	Receiver string `json:"receiver"`
-}
-
-type ResourceDelegateResp struct {
-	TransactionId string `json:"transaction_id"`
-}
-
 type Response struct {
 	Msg string `json:"msg"`
-}
-
-type TransferListReq struct {
-	Address string `json:"address"`
-}
-
-type TransferListResp struct {
-}
-
-type TransferTrxCreateReq struct {
-	Amount int64  `json:"amount"`
-	From   string `json:"from"`
-	To     string `json:"to"`
-}
-
-type TransferTrxCreateResp struct {
-	TransactionId string `json:"transaction_id"`
-	Msg           string `json:"msg"`
-}
-
-type TransferUsdtCreateReq struct {
-	Amount int64  `json:"amount"`
-	From   string `json:"from"`
-	To     string `json:"to"`
-}
-
-type TransferUsdtCreateResp struct {
-	TransactionId string `json:"transaction_id"`
-	Msg           string `json:"msg"`
 }
 
 type TronAccountCreateReq struct {

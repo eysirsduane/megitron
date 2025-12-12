@@ -8,10 +8,10 @@ type DelegateWithdrawal struct {
 
 	Typo int32 `gorm:""`
 
-	From    string `gorm:"size:255"`
-	To      string `gorm:"size:255"`
-	FromHex string `gorm:"size:255"`
-	ToHex   string `gorm:"size:255"`
+	FromBase58 string `gorm:"size:255"`
+	ToBase58   string `gorm:"size:255"`
+	FromHex    string `gorm:"size:255"`
+	ToHex      string `gorm:"size:255"`
 
 	UnDelegatedAmount int64 `gorm:""`
 

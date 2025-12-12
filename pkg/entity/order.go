@@ -5,17 +5,17 @@ type DelegateOrder struct {
 	UserId        int64  `gorm:""`
 	TransactionId string `gorm:"size:255;uniqueIndex"`
 
-	Typo    int32  `gorm:""`
-	Status  uint16 `gorm:""`
-	Curreny string `gorm:"size:16"`
+	Typo     int32  `gorm:""`
+	Status   string `gorm:"size:15"`
+	Currency string `gorm:"size:15"`
 
 	ReceivedAmount float64 `gorm:""`
 	ReceivedSun    uint64  `gorm:""`
 
-	From    string `gorm:"size:255"`
-	To      string `gorm:"size:255"`
-	FromHex string `gorm:"size:255"`
-	ToHex   string `gorm:"size:255"`
+	FromBase58 string `gorm:"size:255"`
+	ToBase58   string `gorm:"size:255"`
+	FromHex    string `gorm:"size:255"`
+	ToHex      string `gorm:"size:255"`
 
 	DelegateAmount int64 `gorm:""`
 
@@ -35,17 +35,17 @@ type ExchangeOrder struct {
 	UserId        int64  `gorm:""`
 	TransactionId string `gorm:"size:255;uniqueIndex"`
 
-	Typo    string `gorm:"size:16"`
-	Status  int16  `gorm:""`
-	Curreny string `gorm:"size:16"`
+	Typo     string `gorm:"size:15"`
+	Status   string `gorm:"size:15"`
+	Currency string `gorm:"size:15"`
 
 	ReceivedAmount float64 `gorm:""`
 	ReceivedSun    int64   `gorm:""`
 
-	From    string `gorm:"size:255"`
-	To      string `gorm:"size:255"`
-	FromHex string `gorm:"size:255"`
-	ToHex   string `gorm:"size:255"`
+	FromBase58 string `gorm:"size:255"`
+	ToBase58   string `gorm:"size:255"`
+	FromHex    string `gorm:"size:255"`
+	ToHex      string `gorm:"size:255"`
 
 	ThenRate         float64
 	ExchangeRate     float64

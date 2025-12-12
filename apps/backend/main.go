@@ -40,10 +40,10 @@ func main() {
 	server := rest.MustNewServer(cfg.RestConf)
 	defer server.Stop()
 
-	// orderservice := service.NewOrderService(db)
-	// excfgservice := service.NewExchangeConfigService(db)
+	orderservice := service.NewOrderService(db)
+	excfgservice := service.NewExchangeConfigService(db)
 	tronservice := service.NewTronService(cfg.Tron.GrpcNetwork, db)
-	ctx := svc.NewServiceContext(cfg, db, tronservice)
+	ctx := svc.NewServiceContext(cfg, tronservice, orderservice, excfgservice)
 	handler.RegisterHandlers(server, ctx)
 
 	httpx.SetOkHandler(biz.OkHandler)

@@ -1,0 +1,370 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/v1/delegate/bill": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "DelegateBillGetHandler",
+        "operationId": "delegateDelegateBillGetHandler",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "order_id"
+              ],
+              "properties": {
+                "order_id": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "created_at": {
+                  "type": "integer"
+                },
+                "delegated_amount": {
+                  "type": "integer"
+                },
+                "from": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "order_id": {
+                  "type": "integer"
+                },
+                "status": {
+                  "type": "integer"
+                },
+                "to": {
+                  "type": "string"
+                },
+                "transaction_id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/delegate/order/list": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "DelegateOrderListHandler",
+        "operationId": "delegateDelegateOrderListHandler",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "page",
+                "limit",
+                "transaction_id",
+                "status",
+                "from",
+                "to",
+                "typo",
+                "start",
+                "end"
+              ],
+              "properties": {
+                "end": {
+                  "type": "integer"
+                },
+                "from": {
+                  "type": "string"
+                },
+                "limit": {
+                  "type": "integer"
+                },
+                "page": {
+                  "type": "integer"
+                },
+                "start": {
+                  "type": "integer"
+                },
+                "status": {
+                  "type": "integer"
+                },
+                "to": {
+                  "type": "string"
+                },
+                "transaction_id": {
+                  "type": "string"
+                },
+                "typo": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "transaction_id",
+                      "status",
+                      "",
+                      "received_amount",
+                      "received_sun",
+                      "from",
+                      "to",
+                      "withdraw_time",
+                      "description",
+                      "created_at",
+                      "telegram",
+                      "whatsapp",
+                      "wechat",
+                      "other"
+                    ],
+                    "properties": {
+                      "": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "integer"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "from": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "other": {
+                        "type": "string"
+                      },
+                      "received_amount": {
+                        "type": "integer"
+                      },
+                      "received_sun": {
+                        "type": "integer"
+                      },
+                      "status": {
+                        "type": "integer"
+                      },
+                      "telegram": {
+                        "type": "string"
+                      },
+                      "to": {
+                        "type": "string"
+                      },
+                      "transaction_id": {
+                        "type": "string"
+                      },
+                      "wechat": {
+                        "type": "string"
+                      },
+                      "whatsapp": {
+                        "type": "string"
+                      },
+                      "withdraw_time": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                },
+                "total": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/delegate/withdraw": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "DelegateWithdrawGetHandler",
+        "operationId": "delegateDelegateWithdrawGetHandler",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "created_at": {
+                  "type": "integer"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "from": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "order_id": {
+                  "type": "integer"
+                },
+                "to": {
+                  "type": "string"
+                },
+                "transaction_id": {
+                  "type": "string"
+                },
+                "typo": {
+                  "type": "string"
+                },
+                "un_delegated_amount": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/exchange/order/list": {
+      "post": {
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "ExchangeOrderListHandler",
+        "operationId": "exchangeExchangeOrderListHandler",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/v1/tron/account": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "TronAccountGetHandler",
+        "operationId": "tronTronAccountGetHandler",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/v1/tron/account/create": {
+      "post": {
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "TronAccountCreateHandler",
+        "operationId": "tronTronAccountCreateHandler",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/v1/user/create": {
+      "post": {
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "summary": "UserCreateHandler",
+        "operationId": "userUserCreateHandler",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-date": "2025-12-11 17:21:33",
+  "x-description": "This is a goctl generated swagger file.",
+  "x-github": "https://github.com/zeromicro/go-zero",
+  "x-go-zero-doc": "https://go-zero.dev/",
+  "x-goctl-version": "1.9.2"
+}

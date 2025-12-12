@@ -92,7 +92,7 @@ export default function useTable<ResponseData, ApiData, Column, Pagination exten
       startLoading();
 
       const response = await api();
-
+      
       const transformed = transform(response);
 
       data.value = getTableData(transformed, pagination);

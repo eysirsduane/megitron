@@ -83,7 +83,7 @@ func (t *OrderService) UpdateDelegateOrder(order *entity.DelegateOrder) (err err
 }
 
 func (t *OrderService) ExpiresDelegateOrder() (expireds []*entity.DelegateOrder, err error) {
-	err = t.db.Model(&entity.DelegateOrder{}).Where("status = ? and expires < ? ", int16(common.DelegateOrderStatusDelegated), common.TimeNowMilli()).Update("status", int16(common.DelegateOrderStatusExpired)).Error
+	err = t.db.Model(&entity.DelegateOrder{}).Where("status = ? and expires < ? ", string(common.DelegateOrderStatusDelegated), common.TimeNowMilli()).Update("status", string(common.DelegateOrderStatusExpired)).Error
 	if err != nil {
 		logx.Errorf("database delegate order expires failed, err:%v", err)
 		err = biz.DelegateOrderExpiresFailed
@@ -91,7 +91,7 @@ func (t *OrderService) ExpiresDelegateOrder() (expireds []*entity.DelegateOrder,
 	}
 
 	expireds = make([]*entity.DelegateOrder, 0)
-	err = t.db.Model(&entity.DelegateOrder{}).Where("status = ? and delegate_amount > 0", int16(common.DelegateOrderStatusExpired)).Find(&expireds).Error
+	err = t.db.Model(&entity.DelegateOrder{}).Where("status = ? and delegate_amount > 0", string(common.DelegateOrderStatusExpired)).Find(&expireds).Error
 	if err != nil {
 		logx.Errorf("database delegate order expires find failed, err:%v", err)
 		err = biz.DelegateOrderExpiresFailed
@@ -104,7 +104,7 @@ func (t *OrderService) ExpiresDelegateOrder() (expireds []*entity.DelegateOrder,
 func (t *OrderService) DelegatedOrders() (delegateds []*entity.DelegateOrder, err error) {
 	delegateds = make([]*entity.DelegateOrder, 0)
 
-	err = t.db.Model(&entity.DelegateOrder{}).Where("status = ? and withdraw_time < ? and delegate_amount > 0", int16(common.DelegateOrderStatusDelegated), common.TimeNowMilli()).Find(&delegateds).Error
+	err = t.db.Model(&entity.DelegateOrder{}).Where("status = ? and withdraw_time < ? and delegate_amount > 0", string(common.DelegateOrderStatusDelegated), common.TimeNowMilli()).Find(&delegateds).Error
 	if err != nil {
 		logx.Errorf("database delegate order find delegated orders failed, err:%v", err)
 		err = biz.DelegateOrderFindFailed
@@ -114,7 +114,7 @@ func (t *OrderService) DelegatedOrders() (delegateds []*entity.DelegateOrder, er
 	return
 }
 
-func (t *OrderService) FindDelegateOrders(status int16) (orders []*entity.DelegateOrder, count int64, err error) {
+func (t *OrderService) FindDelegateOrders(status string) (orders []*entity.DelegateOrder, count int64, err error) {
 	orders = make([]*entity.DelegateOrder, 0)
 	err = t.db.Model(&entity.DelegateOrder{}).Where("status = ?", common.DelegateOrderStatus(status)).Find(&orders).Error
 	if err != nil {
@@ -128,7 +128,48 @@ func (t *OrderService) FindDelegateOrders(status int16) (orders []*entity.Delega
 	return
 }
 
-func (t *OrderService) FindExchangeOrders(status int16) (orders []*entity.ExchangeOrder, count int64, err error) {
+func (t *OrderService) FindDelegateOrderList(transid, from, to, typo, status string, start, end int64, page, limit int) (orders []*entity.DelegateOrder, total int64, err error) {
+	db := t.db.Model(&entity.DelegateOrder{}).Order("id asc")
+	if transid != "" {
+		db = db.Where("transaction_id = ?", transid)
+	}
+	if from != "" {
+		db = db.Where("from_base58 = ?", from)
+	}
+	if to != "" {
+		db = db.Where("to_base58 = ?", to)
+	}
+	if typo != "" {
+		db = db.Where("typo = ?", typo)
+	}
+	if status != "" {
+		db = db.Where("status = ?", status)
+	}
+	if start > 0 {
+		db = db.Where("created_at >= ?", start)
+	}
+	if end > 0 {
+		db = db.Where("created_at <= ?", end)
+	}
+
+	orders = make([]*entity.DelegateOrder, limit)
+	err = db.Offset(common.Offset(page, limit)).Limit(limit).Find(&orders).Error
+	if err != nil {
+		logx.Errorf("delegate order list find failed, err:%v", err)
+		err = biz.DelegateOrderFindFailed
+		return
+	}
+	err = db.Count(&total).Error
+	if err != nil {
+		logx.Errorf("delegate order list find count failed, err:%v", err)
+		err = biz.DelegateOrderFindFailed
+		return
+	}
+
+	return
+}
+
+func (t *OrderService) FindExchangeOrders(status string) (orders []*entity.ExchangeOrder, count int64, err error) {
 	orders = make([]*entity.ExchangeOrder, 0)
 	err = t.db.Model(&entity.ExchangeOrder{}).Where("status = ?", common.ExchangeOrderStatus(status)).Find(&orders).Error
 	if err != nil {
@@ -143,7 +184,7 @@ func (t *OrderService) FindExchangeOrders(status int16) (orders []*entity.Exchan
 }
 
 func (t *OrderService) ExpiresExchangeOrder() (err error) {
-	err = t.db.Model(&entity.ExchangeOrder{}).Where("status = ? and expires < ?", common.ExchangeOrderStatus(common.ExchangeOrderStatusCreated), common.TimeNowMilli()).Update("status", int16(common.ExchangeOrderStatusExpired)).Error
+	err = t.db.Model(&entity.ExchangeOrder{}).Where("status = ? and expires < ?", common.ExchangeOrderStatus(common.ExchangeOrderStatusCreated), common.TimeNowMilli()).Update("status", string(common.ExchangeOrderStatusExpired)).Error
 	if err != nil {
 		logx.Errorf("database exchange order expires failed, err:%v", err)
 		err = biz.ExchangeOrderExpiresFailed

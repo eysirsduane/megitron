@@ -1,4 +1,5 @@
 Name: megitron-dev
+Timeout: 3600000
 Host: 0.0.0.0
 Port: 6666
 
@@ -11,10 +12,10 @@ Log:
   TimeFormat: "2006-01-02 15:04:05"
 
 DB:
-  User: root
+  User: postgres
   Password: "123456"
   Host: 127.0.0.1
-  Port: 3306
+  Port: 5432
   Name: megitron
   Charset: utf8mb4
   Timezone: UTC

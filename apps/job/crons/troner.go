@@ -140,9 +140,9 @@ func (t *Troner) MonitorTrxTransaction() {
 		entity := &entity.DelegateOrder{
 			TransactionId:  tx.TxID,
 			Typo:           int32(common.DelegateResourceTypoEnergy),
-			Curreny:        string(common.CurrencyTypoTrx),
-			From:           from.Base58(),
-			To:             to.Base58(),
+			Currency:       string(common.CurrencyTypoTrx),
+			FromBase58:     from.Base58(),
+			ToBase58:       to.Base58(),
 			FromHex:        from.Hex(),
 			ToHex:          to.Hex(),
 			ReceivedAmount: amount,
@@ -226,9 +226,9 @@ func (t *Troner) MonitorUsdtTransaction() {
 		entity := &entity.ExchangeOrder{
 			TransactionId:    tx.TransactionId,
 			Typo:             string(common.ExchangeTypoUsdt2Trx),
-			Curreny:          string(common.CurrencyTypoUsdt),
-			From:             from.Base58(),
-			To:               to.Base58(),
+			Currency:         string(common.CurrencyTypoUsdt),
+			FromBase58:       from.Base58(),
+			ToBase58:         to.Base58(),
 			FromHex:          from.Hex(),
 			ToHex:            to.Hex(),
 			ThenRate:         rate,
@@ -275,7 +275,7 @@ func (t *Troner) orderExchange(order *entity.ExchangeOrder, from, to *ttypes.Add
 	if err != nil || !success {
 		logx.Errorf("cron tron usdt2trx create transfer failed, TRX[%v], from:%v, to:%v, success:%v, msg:%v, err:%v", amount, to.Base58(), from.Base58(), success, msg, err)
 
-		order.Status = int16(common.ExchangeOrderStatusPending)
+		order.Status = string(common.ExchangeOrderStatusPending)
 		order.Time = common.TimeNowMilli()
 		order.Description = fmt.Sprintf("兑换 TRX[%v] 失败, 创建 Tron Transaction 失败, success:%v, err:%v", amount, success, err)
 		err = t.orderservice.UpdateExchangeOrder(order)
@@ -292,23 +292,23 @@ func (t *Troner) orderExchange(order *entity.ExchangeOrder, from, to *ttypes.Add
 	bill.UserId = order.UserId
 	bill.OrderId = order.Id
 	bill.TransactionId = etxid
-	bill.Status = int16(common.ExchangeBillStatusSuccess)
-	bill.Curreny = string(common.CurrencyTypoTrx)
-	bill.From = to.Base58()
-	bill.To = from.Base58()
+	bill.Status = string(common.ExchangeBillStatusSuccess)
+	bill.Currency = string(common.CurrencyTypoTrx)
+	bill.FromBase58 = to.Base58()
+	bill.ToBase58 = from.Base58()
 	bill.FromHex = to.Hex()
 	bill.ToHex = from.Hex()
 	bill.ExchangedAmount = amount
 	bill.ExchangedSun = common.Sun(amount)
 	err = t.orderservice.UpdateExchangeBill(bill)
 	if err != nil {
-		logx.Errorf("cron tron exchange bill update failed, oid:%v, otxid:%v, btxid:%v, from:%v, to:%v, err:%v", order.Id, order.TransactionId, bill.TransactionId, bill.From, bill.To, err)
+		logx.Errorf("cron tron exchange bill update failed, oid:%v, otxid:%v, btxid:%v, from:%v, to:%v, err:%v", order.Id, order.TransactionId, bill.TransactionId, bill.FromBase58, bill.ToBase58, err)
 		return
 	}
 
 	ostatus := order.Status
 	order.Time = common.TimeNowMilli()
-	order.Status = int16(common.ExchangeOrderStatusFinished)
+	order.Status = string(common.ExchangeOrderStatusFinished)
 	err = t.orderservice.UpdateExchangeOrder(order)
 	if err != nil {
 		logx.Errorf("cron tron exchange order update failed, [%v]->[%v], oid:%v, txid:%v, err:%v", ostatus, order.Id, order.Status, order.TransactionId, err)
@@ -325,10 +325,10 @@ func (t *Troner) orderDelegate(order *entity.DelegateOrder, from, to *ttypes.Add
 
 		order.Time = uint64(btime)
 		if order.FailedTimes >= 3 {
-			order.Status = uint16(common.DelegateOrderStatusError)
+			order.Status = string(common.DelegateOrderStatusError)
 		} else {
 			order.FailedTimes++
-			order.Status = uint16(common.DelegateOrderStatusPending)
+			order.Status = string(common.DelegateOrderStatusPending)
 			order.Description = fmt.Sprintf("租出 能量[%v] 发生错误, TRX[%v] oid:%v, otxid:%v, success:%v, err:%v", amount, order.ReceivedAmount, order.Id, order.TransactionId, success, err)
 		}
 		err = t.orderservice.UpdateDelegateOrder(order)
@@ -345,23 +345,23 @@ func (t *Troner) orderDelegate(order *entity.DelegateOrder, from, to *ttypes.Add
 	bill.UserId = order.UserId
 	bill.OrderId = order.Id
 	bill.TransactionId = dtxid
-	bill.Status = int16(common.DelegateBillStatusSuccess)
-	bill.Curreny = string(common.CurrencyTypoEnergy)
-	bill.From = to.Base58()
-	bill.To = from.Base58()
+	bill.Status = string(common.DelegateBillStatusSuccess)
+	bill.Currency = string(common.CurrencyTypoEnergy)
+	bill.FromBase58 = to.Base58()
+	bill.ToBase58 = from.Base58()
 	bill.FromHex = to.Hex()
 	bill.ToHex = from.Hex()
 	bill.DelegatedAmount = amount
 	err = t.orderservice.UpdateDelegateBill(bill)
 	if err != nil {
-		logx.Errorf("cron tron delegate bill update failed, oid:%v, otxid:%v, btxid:%v, from:%v, to:%v, err:%v", order.Id, order.TransactionId, bill.TransactionId, bill.From, bill.To, err)
+		logx.Errorf("cron tron delegate bill update failed, oid:%v, otxid:%v, btxid:%v, from:%v, to:%v, err:%v", order.Id, order.TransactionId, bill.TransactionId, bill.FromBase58, bill.ToBase58, err)
 		return
 	}
 
 	ostatus := order.Status
 	order.Time = common.TimeNowMilli()
 	order.WithdrawTime = common.TimeInHourMilli()
-	order.Status = uint16(common.DelegateOrderStatusDelegated)
+	order.Status = string(common.DelegateOrderStatusDelegated)
 	err = t.orderservice.UpdateDelegateOrder(order)
 	if err != nil {
 		udtxid, _, _, success, err1 := t.tronservice.ResourceUnDelegate(t.ownerprivatekey, from.Base58(), int32(common.DelegateResourceTypoEnergy), amount)
@@ -385,22 +385,22 @@ func (t *Troner) WithdrawDelegatedOrders() {
 	}
 
 	for _, order := range delegateds {
-		utxid, _, time, success, err := t.tronservice.ResourceUnDelegate(t.ownerprivatekey, order.From, order.Typo, order.DelegateAmount)
+		utxid, _, time, success, err := t.tronservice.ResourceUnDelegate(t.ownerprivatekey, order.FromBase58, order.Typo, order.DelegateAmount)
 		if err != nil || !success {
 			logx.Errorf("cron tron take back resource failed, oid:%v, txid:%v, utxid:%v, success:%v, time:%v, err:%v", order.Id, order.TransactionId, utxid, success, time, err)
 			continue
 		}
 
-		from := ttypes.MustNewAddressFromBase58(order.From)
-		to := ttypes.MustNewAddressFromBase58(order.To)
+		from := ttypes.MustNewAddressFromBase58(order.FromBase58)
+		to := ttypes.MustNewAddressFromBase58(order.ToBase58)
 
 		drawal := &entity.DelegateWithdrawal{}
 		drawal.UserId = order.UserId
 		drawal.OrderId = order.Id
 		drawal.TransactionId = utxid
 		drawal.Typo = order.Typo
-		drawal.From = from.Base58()
-		drawal.To = to.Base58()
+		drawal.FromBase58 = from.Base58()
+		drawal.ToBase58 = to.Base58()
 		drawal.FromHex = from.Hex()
 		drawal.ToHex = to.Hex()
 		drawal.UnDelegatedAmount = order.DelegateAmount
@@ -411,27 +411,27 @@ func (t *Troner) WithdrawDelegatedOrders() {
 		}
 
 		order.Time = common.TimeNowMilli()
-		order.Status = uint16(common.DelegateOrderStatusFinished)
+		order.Status = string(common.DelegateOrderStatusFinished)
 		err = t.orderservice.UpdateDelegateOrder(order)
 		if err != nil {
 			logx.Errorf("cron tron expires delegated order batch update failed, err:%v", err)
 			continue
 		}
 
-		logx.Infof("🟩🟩🟩 回收资源 [%v][%v], oid:%v, from:%v, to:%v, otxid:%v, udtxid:%v, success:%v, time:%v", drawal.UnDelegatedAmount, order.Typo, order.Id, order.From, order.To, order.TransactionId, drawal.TransactionId, success, time)
+		logx.Infof("🟩🟩🟩 回收资源 [%v][%v], oid:%v, from:%v, to:%v, otxid:%v, udtxid:%v, success:%v, time:%v", drawal.UnDelegatedAmount, order.Typo, order.Id, order.FromBase58, order.ToBase58, order.TransactionId, drawal.TransactionId, success, time)
 	}
 }
 
 func (t *Troner) ReDelegatePendingOrders() {
-	pendings, _, err := t.orderservice.FindDelegateOrders(int16(common.DelegateOrderStatusPending))
+	pendings, _, err := t.orderservice.FindDelegateOrders(string(common.DelegateOrderStatusPending))
 	if err != nil {
 		logx.Errorf("cron tron expires redelegated order failed, err:%v", err)
 		return
 	}
 
 	for _, order := range pendings {
-		from := ttypes.MustNewAddressFromBase58(order.From)
-		to := ttypes.MustNewAddressFromBase58(order.To)
+		from := ttypes.MustNewAddressFromBase58(order.FromBase58)
+		to := ttypes.MustNewAddressFromBase58(order.ToBase58)
 		err = t.orderDelegate(order, from, to, order.DelegateAmount)
 		if err != nil {
 			logx.Errorf("cron tron expires redelegated order batch update failed, err:%v", err)
@@ -440,15 +440,15 @@ func (t *Troner) ReDelegatePendingOrders() {
 }
 
 func (t *Troner) ReExchangePendingOrders() {
-	pendings, _, err := t.orderservice.FindExchangeOrders(int16(common.ExchangeOrderStatusPending))
+	pendings, _, err := t.orderservice.FindExchangeOrders(string(common.ExchangeOrderStatusPending))
 	if err != nil {
 		logx.Errorf("cron tron reexchange delegated order failed, err:%v", err)
 		return
 	}
 
 	for _, order := range pendings {
-		from := ttypes.MustNewAddressFromBase58(order.From)
-		to := ttypes.MustNewAddressFromBase58(order.To)
+		from := ttypes.MustNewAddressFromBase58(order.FromBase58)
+		to := ttypes.MustNewAddressFromBase58(order.ToBase58)
 		err = t.orderExchange(order, from, to, order.ExchangeAmount)
 		if err != nil {
 			logx.Errorf("cron tron reexchange delegated order batch update failed, err:%v", err)

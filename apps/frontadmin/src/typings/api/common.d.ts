@@ -13,6 +13,10 @@ declare namespace Api {
       size: number;
       /** total count */
       total: number;
+      page: number;
+      limit: number;
+      start: number;
+      end: number;
     }
 
     /** common params of paginating query list data */
@@ -44,7 +48,8 @@ declare namespace Api {
       /** record update time */
       updateTime: string;
       /** record status */
-      status: EnableStatus | null;
+      status: string;
+      created_at: number;
     } & T;
   }
 }

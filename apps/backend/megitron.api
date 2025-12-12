@@ -8,17 +8,16 @@ type Response {
 	Msg string `json:"msg"`
 }
 
-type Paged {
-	Page  int64 `json:"page"`
-	Limit int64 `json:"limit"`
-	Total int64 `json:"total"`
+type Pages {
+	Page  int `json:"page"`
+	Limit int `json:"limit"`
 }
 
-type Contacts{
+type Contacts {
 	Telegram string `json:"telegram"`
 	WhatsApp string `json:"whatsapp"`
-	Wechat string `json:"wechat"`
-	Other  string `json:"other"`
+	Wechat   string `json:"wechat"`
+	Other    string `json:"other"`
 }
 
 type TronAccountGetReq {}
@@ -30,29 +29,74 @@ type TronAccountCreateReq {}
 type TronAccountCreateResp {}
 
 type DelegateOrderListReq {
-	Paged
+	Pages
 	TransactionId string `json:"transaction_id"`
-	From string `json:"from"`
-	Receiver string `json:"receiver"`
-	Typo string `json:"typo"`
-	Start int64 `json:"start"`
-	End int64 `json:"end"`
+	Status        string `json:"status"`
+	FromBase58    string `json:"from_base58"`
+	ToBase58      string `json:"to_base58"`
+	Typo          string `json:"typo"`
+	Start         int64  `json:"start"`
+	End           int64  `json:"end"`
 }
 
 type DelegateOrderListResp {
-	Id int64 `json:"id"`
-	TransactionId string `json:"transaction_id"`
-	Status int8 `json:"status"`
-	Currency string`json:""`
-	ReceivedAmount int64`json:"received_amount"`
-	ReceivedSun int64`json:"received_sun"`
+	Items []*DelegateOrderItem `json:"items"`
+	Total int64                `json:"total"`
+}
 
-	From string`json:"from"`
-	Receiver string`json:"receiver"`
-	WithdrawTime int64 `json:"withdraw_time"`
-	Description string `json:"description"`
-	CreatedAt int64`json:"created_at"`
+type DelegateOrderItem {
+	Id             int64   `json:"id"`
+	TransactionId  string  `json:"transaction_id"`
+	Status         string  `json:"status"`
+	Currency       string  `json:"currency"`
+	ReceivedAmount float64 `json:"received_amount"`
+	ReceivedSun    int64   `json:"received_sun"`
+	FromBase58     string  `json:"from_base58"`
+	ToBase58       string  `json:"to_base58"`
+	WithdrawTime   int64   `json:"withdraw_time"`
+	Description    string  `json:"description"`
 	Contacts
+	CreatedAt int64 `json:"created_at"`
+}
+
+type DelegateBillGetReq {
+	OrderId int64 `json:"order_id"`
+}
+
+type DelegateBillGetResp {
+	Bill DelegateBillItem
+}
+
+type DelegateBillItem {
+	Id              int64  `json:"id"`
+	OrderId         int64  `json:"order_id"`
+	TransactionId   string `json:"transaction_id"`
+	Status          int16  `json:"status"`
+	From            string `json:"from"`
+	To              string `json:"to"`
+	DelegatedAmount int64  `json:"delegated_amount"`
+	Contacts
+	CreatedAt int64 `json:"created_at"`
+}
+
+type DelegateWithdrawGetReq {
+	OrderId int64
+}
+
+type DelegateWithdrawGetResp {
+	Withdraw DelegateWithdrawItem
+}
+
+type DelegateWithdrawItem {
+	Id                int64  `json:"id"`
+	OrderId           int64  `json:"order_id"`
+	TransactionId     string `json:"transaction_id"`
+	Typo              string `json:"typo"`
+	From              string `json:"from"`
+	To                string `json:"to"`
+	UnDelegatedAmount int64  `json:"un_delegated_amount"`
+	Description       string `json:"description"`
+	CreatedAt         int64  `json:"created_at"`
 }
 
 type ExchangeOrderListReq {}
@@ -73,7 +117,6 @@ type ExchangeOrderCreateResp {
 	Msg string `json:"msg"`
 }
 
-
 type UserCreateReq {}
 
 type UserCreateResp {}
@@ -85,7 +128,7 @@ type UserCreateResp {}
 	// 等信息配置的 golang 结构体名称
 	// jwt: Auth
 	// 代表当前 service 代码块下的路由生成代码时都会被放到 user 目录下
-	group: account
+	group: tron
 	// 定义路由前缀为 "/v1"
 	prefix: /v1
 )
@@ -110,7 +153,13 @@ service megitron {
 )
 service megitron {
 	@handler DelegateOrderListHandler
-	post /delegate/order/list (DelegateOrderListReq) returns (DelegateOrderListResp)
+	get /delegate/order/list (DelegateOrderListReq) returns (DelegateOrderListResp)
+
+	@handler DelegateBillGetHandler
+	get /delegate/bill (DelegateBillGetReq) returns (*DelegateBillItem)
+
+	@handler DelegateWithdrawGetHandler
+	get /delegate/withdraw (DelegateWithdrawGetReq) returns (*DelegateWithdrawItem)
 }
 
 @server (

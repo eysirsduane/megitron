@@ -39,50 +39,50 @@ const (
 	ExchangeTypoTrx2Usdt ExchangeTypo = "trx2usdt"
 )
 
-type DelegateOrderStatus uint16
+type DelegateOrderStatus string
 
 const (
-	DelegateOrderStatusCreated   DelegateOrderStatus = 0
-	DelegateOrderStatusPending   DelegateOrderStatus = 100
-	DelegateOrderStatusExpired   DelegateOrderStatus = 300
-	DelegateOrderStatusCanceled  DelegateOrderStatus = 400
-	DelegateOrderStatusDelegated DelegateOrderStatus = 700
-	DelegateOrderStatusError     DelegateOrderStatus = 800
-	DelegateOrderStatusFinished  DelegateOrderStatus = 900
+	DelegateOrderStatusCreated   DelegateOrderStatus = "已创建"
+	DelegateOrderStatusPending   DelegateOrderStatus = "已挂起"
+	DelegateOrderStatusExpired   DelegateOrderStatus = "已过期"
+	DelegateOrderStatusCanceled  DelegateOrderStatus = "已取消"
+	DelegateOrderStatusDelegated DelegateOrderStatus = "已委托"
+	DelegateOrderStatusError     DelegateOrderStatus = "错误"
+	DelegateOrderStatusFinished  DelegateOrderStatus = "已完成"
 )
 
-type DelegateBillStatus uint16
+type DelegateBillStatus string
 
 const (
-	DelegateBillStatusCreated  DelegateBillStatus = 0
-	DelegateBillStatusPending  DelegateBillStatus = 100
-	DelegateBillStatusExpired  DelegateBillStatus = 300
-	DelegateBillStatusCanceled DelegateBillStatus = 400
-	DelegateBillStatusPaid     DelegateBillStatus = 700
-	DelegateBillStatusError    DelegateBillStatus = 800
-	DelegateBillStatusSuccess  DelegateBillStatus = 900
+	DelegateBillStatusCreated  DelegateBillStatus = "已创建"
+	DelegateBillStatusPending  DelegateBillStatus = "已挂起"
+	DelegateBillStatusExpired  DelegateBillStatus = "已过期"
+	DelegateBillStatusCanceled DelegateBillStatus = "已取消"
+	DelegateBillStatusPaid     DelegateBillStatus = "已委托"
+	DelegateBillStatusError    DelegateBillStatus = "错误"
+	DelegateBillStatusSuccess  DelegateBillStatus = "已完成"
 )
 
-type ExchangeOrderStatus uint16
+type ExchangeOrderStatus string
 
 const (
-	ExchangeOrderStatusCreated   ExchangeOrderStatus = 0
-	ExchangeOrderStatusPending   ExchangeOrderStatus = 100
-	ExchangeOrderStatusExpired   DelegateOrderStatus = 300
-	ExchangeOrderStatusCanceled  ExchangeOrderStatus = 400
-	ExchangeOrderStatusExchanged ExchangeOrderStatus = 700
-	ExchangeOrderStatusError     DelegateOrderStatus = 800
-	ExchangeOrderStatusFinished  ExchangeOrderStatus = 900
+	ExchangeOrderStatusCreated   ExchangeOrderStatus = "已创建"
+	ExchangeOrderStatusPending   ExchangeOrderStatus = "已挂起"
+	ExchangeOrderStatusExpired   DelegateOrderStatus = "已过期"
+	ExchangeOrderStatusCanceled  ExchangeOrderStatus = "已取消"
+	ExchangeOrderStatusExchanged ExchangeOrderStatus = "已委托"
+	ExchangeOrderStatusError     DelegateOrderStatus = "错误"
+	ExchangeOrderStatusFinished  ExchangeOrderStatus = "已完成"
 )
 
-type ExchangeBillStatus uint16
+type ExchangeBillStatus string
 
 const (
-	ExchangeBillStatusCreated  ExchangeBillStatus = 0
-	ExchangeBillStatusPending  ExchangeBillStatus = 100
-	ExchangeBillStatusExpired  ExchangeBillStatus = 300
-	ExchangeBillStatusCanceled ExchangeBillStatus = 400
-	ExchangeBillStatusPaid     ExchangeBillStatus = 700
-	ExchangeBillStatusError    ExchangeBillStatus = 800
-	ExchangeBillStatusSuccess  ExchangeBillStatus = 900
+	ExchangeBillStatusCreated  ExchangeBillStatus = "已创建"
+	ExchangeBillStatusPending  ExchangeBillStatus = "已挂起"
+	ExchangeBillStatusExpired  ExchangeBillStatus = "已过期"
+	ExchangeBillStatusCanceled ExchangeBillStatus = "已取消"
+	ExchangeBillStatusPaid     ExchangeBillStatus = "已委托"
+	ExchangeBillStatusError    ExchangeBillStatus = "错误"
+	ExchangeBillStatusSuccess  ExchangeBillStatus = "已完成"
 )

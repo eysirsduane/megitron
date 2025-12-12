@@ -6,9 +6,9 @@ package handler
 import (
 	"net/http"
 
-	account "megitron/apps/backend/internal/handler/account"
 	delegate "megitron/apps/backend/internal/handler/delegate"
 	exchange "megitron/apps/backend/internal/handler/exchange"
+	tron "megitron/apps/backend/internal/handler/tron"
 	user "megitron/apps/backend/internal/handler/user"
 	"megitron/apps/backend/internal/svc"
 
@@ -20,24 +20,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodGet,
-				Path:    "/tron/account",
-				Handler: account.TronAccountGetHandler(serverCtx),
+				Path:    "/delegate/bill",
+				Handler: delegate.DelegateBillGetHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodPost,
-				Path:    "/tron/account/create",
-				Handler: account.TronAccountCreateHandler(serverCtx),
-			},
-		},
-		rest.WithPrefix("/v1"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
+				Method:  http.MethodGet,
 				Path:    "/delegate/order/list",
 				Handler: delegate.DelegateOrderListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/delegate/withdraw",
+				Handler: delegate.DelegateWithdrawGetHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/v1"),
@@ -49,6 +43,22 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/exchange/order/list",
 				Handler: exchange.ExchangeOrderListHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/tron/account",
+				Handler: tron.TronAccountGetHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/tron/account/create",
+				Handler: tron.TronAccountCreateHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/v1"),

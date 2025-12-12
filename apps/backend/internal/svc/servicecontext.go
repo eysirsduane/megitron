@@ -6,20 +6,20 @@ package svc
 import (
 	"megitron/pkg/model"
 	"megitron/pkg/service"
-
-	"gorm.io/gorm"
 )
 
 type ServiceContext struct {
-	Config      model.Config
-	DB          *gorm.DB
-	TronService *service.TronService
+	Config       model.Config
+	TronService  *service.TronService
+	OrderService *service.OrderService
+	ExcfgService *service.ExchangeConfigService
 }
 
-func NewServiceContext(c model.Config, db *gorm.DB, tron *service.TronService) *ServiceContext {
+func NewServiceContext(c model.Config, tron *service.TronService, order *service.OrderService, excfg *service.ExchangeConfigService) *ServiceContext {
 	return &ServiceContext{
-		Config:      c,
-		DB:          db,
-		TronService: tron,
+		Config:       c,
+		TronService:  tron,
+		OrderService: order,
+		ExcfgService: excfg,
 	}
 }

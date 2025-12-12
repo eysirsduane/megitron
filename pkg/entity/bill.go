@@ -6,13 +6,13 @@ type DelegateBill struct {
 	OrderId       int64  `gorm:""`
 	TransactionId string `gorm:"size:255;uniqueIndex"`
 
-	Status  int16  `gorm:""`
-	Curreny string `gorm:"size:16"`
+	Status   string `gorm:"size:15"`
+	Currency string `gorm:"size:16"`
 
-	From    string `gorm:"size:255"`
-	To      string `gorm:"size:255"`
-	FromHex string `gorm:"size:255"`
-	ToHex   string `gorm:"size:255"`
+	FromBase58 string `gorm:"size:255"`
+	ToBase58   string `gorm:"size:255"`
+	FromHex    string `gorm:"size:255"`
+	ToHex      string `gorm:"size:255"`
 
 	DelegatedAmount int64 `gorm:""`
 
@@ -28,13 +28,13 @@ type ExchangeBill struct {
 	OrderId       int64  `gorm:""`
 	TransactionId string `gorm:"size:255;uniqueIndex"`
 
-	Status  int16  `gorm:""`
-	Curreny string `gorm:"size:16"`
+	Status   string `gorm:"size:15"`
+	Currency string `gorm:"size:16"`
 
-	From    string `gorm:"size:255"`
-	To      string `gorm:"size:255"`
-	FromHex string `gorm:"size:255"`
-	ToHex   string `gorm:"size:255"`
+	FromBase58 string `gorm:"size:255"`
+	ToBase58   string `gorm:"size:255"`
+	FromHex    string `gorm:"size:255"`
+	ToHex      string `gorm:"size:255"`
 
 	ExchangedAmount float64 `gorm:""`
 	ExchangedSun    int64   `gorm:""`

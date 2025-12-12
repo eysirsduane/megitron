@@ -10,6 +10,10 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
+func Offset(page, limit int) (offset int) {
+	return (page - 1) * limit
+}
+
 func GetTrx2UsdtRateFromHtx(url string) (rate float64, err error) {
 	resp, err := http.Get(url)
 	if err != nil {
